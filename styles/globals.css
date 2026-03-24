@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #0a0a0f;
+  --color-surface: #12121a;
+  --color-surface-2: #1e1020;
+  --color-accent: #ff2d55;
+  --color-accent-2: #c0002a;
+  --color-text: #f0e8ec;
+  --color-muted: #7a5a62;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Mesh gradient — Hero */
+.mesh-gradient-hero {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 40%, #ff2d5530 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 85% 60%, #c0002a22 0%, transparent 65%),
+    radial-gradient(ellipse 40% 40% at 50% 20%, #3d001522 0%, transparent 60%);
+  filter: blur(70px);
+  z-index: 0;
+}
+
+/* Mesh gradient — section Projects */
+.mesh-gradient-projects {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 50% at 80% 30%, #ff2d5518 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 20% 70%, #1e102033 0%, transparent 60%);
+  filter: blur(80px);
+  z-index: 0;
+}
