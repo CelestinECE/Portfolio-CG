@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import TypewriterTitle from '@/components/ui/TypewriterTitle'
 
 export default function ProjectsSection() {
   return (
@@ -8,15 +9,10 @@ export default function ProjectsSection() {
       <div className="mesh-gradient-projects" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.h2
+        <TypewriterTitle
+          text="Expériences & Projets"
           className="font-heading text-3xl xl:text-5xl font-bold text-accent mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Expériences &amp; Projets
-        </motion.h2>
+        />
 
         {/* Placeholder — à compléter avec les projets */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

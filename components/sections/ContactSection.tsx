@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import TypewriterTitle from '@/components/ui/TypewriterTitle'
 
 interface FormState {
   name: string
@@ -38,15 +39,10 @@ export default function ContactSection() {
   return (
     <section id="contact" className="relative min-h-screen py-24 px-4">
       <div className="relative z-10 max-w-2xl mx-auto">
-        <motion.h2
+        <TypewriterTitle
+          text="Contact"
           className="font-heading text-3xl xl:text-5xl font-bold text-accent mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Contact
-        </motion.h2>
+        />
 
         <motion.form
           onSubmit={handleSubmit}

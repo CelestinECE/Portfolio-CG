@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import TypewriterTitle from '@/components/ui/TypewriterTitle'
 
 interface SkillCategory {
   name: string
@@ -18,15 +19,10 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="relative min-h-screen py-24 px-4">
       <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.h2
+        <TypewriterTitle
+          text="Compétences"
           className="font-heading text-3xl xl:text-5xl font-bold text-accent mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Compétences
-        </motion.h2>
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {categories.map((cat, idx) => (
