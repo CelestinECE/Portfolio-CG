@@ -43,7 +43,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          Ingénieur IA &amp; Systèmes d&apos;Information — ECE Lyon
+          Étudiant Ingénieur — Spécialisation Finance &amp; Marchés — ECE Lyon
         </motion.p>
 
         <motion.p
@@ -57,12 +57,17 @@ export default function HeroSection() {
 
         <motion.button
           onClick={scrollToProjects}
-          className="px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-bg transition-colors duration-300 font-heading text-sm tracking-wider uppercase"
+          className="px-6 py-3 border border-accent text-accent font-heading text-sm tracking-wider uppercase relative overflow-hidden group"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
+          whileHover={{ scale: 1.05, boxShadow: '0 0 24px rgba(255,45,85,0.4)' }}
+          whileTap={{ scale: 0.97 }}
         >
-          Voir mes projets
+          <span className="relative z-10 group-hover:text-white transition-colors duration-300">
+            Voir mes projets
+          </span>
+          <span className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
         </motion.button>
       </div>
     </section>

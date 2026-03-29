@@ -9,10 +9,9 @@ interface SkillCategory {
 }
 
 const categories: SkillCategory[] = [
-  { name: 'Langages', skills: ['Python', 'C', 'Java', 'TypeScript', 'JavaScript'] },
-  { name: 'Outils & DevOps', skills: ['Git', 'GitHub', 'Docker', 'Linux'] },
-  { name: 'IA & Data', skills: ['TensorFlow', 'Scikit-learn', 'Pandas'] },
-  { name: 'Finance', skills: ['Bloomberg Terminal', 'Excel', 'Analyse technique'] },
+  { name: 'Langages', skills: ['Python', 'C', 'Java', 'JavaScript', 'HTML', 'CSS', 'JSON', 'SQL'] },
+  { name: 'Outils & DevOps', skills: ['Git', 'GitHub', 'VS Code'] },
+  { name: 'Finance', skills: ['Bloomberg Terminal', 'Excel'] },
 ]
 
 export default function SkillsSection() {
