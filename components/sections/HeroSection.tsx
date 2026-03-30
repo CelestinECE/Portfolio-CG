@@ -9,16 +9,7 @@ import TypewriterTitle from '@/components/ui/TypewriterTitle'
 /* Chargement lazy du logo 3D — jamais côté serveur */
 const LogoCG3D = dynamic(() => import('@/components/three/LogoCG3D'), {
   ssr: false,
-  loading: () => (
-    <Image
-      src="/images/Logo_CG.png"
-      alt="Logo CG"
-      width={540}
-      height={540}
-      className="mx-auto"
-      priority
-    />
-  ),
+  loading: () => <div className="w-[540px] h-[440px] mx-auto" />,
 })
 
 /* Fallback logo 2D pour mobile */
@@ -36,7 +27,7 @@ function LogoCG2D() {
 }
 
 export default function HeroSection() {
-  const [isDesktop, setIsDesktop] = useState(false)
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null)
 
   useEffect(() => {
     const check = () => setIsDesktop(window.innerWidth >= 1024)
@@ -50,7 +41,7 @@ export default function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-0">
+    <section className="relative flex items-start justify-center overflow-hidden pt-0 pb-16">
       <div className="mesh-gradient-hero" />
 
       <div className="relative z-10 text-center px-4">
@@ -60,10 +51,15 @@ export default function HeroSection() {
           transition={{ duration: 0.6 }}
           className="-mb-4"
         >
+          {/* Placeholder invisible tant qu'on ne sait pas si desktop ou mobile */}
+          {isDesktop === null && <div className="w-[540px] h-[440px] mx-auto" />}
+
           {/* Logo 3D sur desktop, 2D sur mobile */}
-          <Suspense fallback={<LogoCG2D />}>
-            {isDesktop ? <LogoCG3D /> : <LogoCG2D />}
-          </Suspense>
+          {isDesktop !== null && (
+            <Suspense fallback={<div className="w-[540px] h-[440px] mx-auto" />}>
+              {isDesktop ? <LogoCG3D /> : <LogoCG2D />}
+            </Suspense>
+          )}
         </motion.div>
 
         <TypewriterTitle
