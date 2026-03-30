@@ -27,6 +27,7 @@ export default function SkillsSection() {
           {categories.map((cat, idx) => (
             <motion.div
               key={cat.name}
+              className={cat.name === 'Langages' ? 'md:col-span-2' : ''}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

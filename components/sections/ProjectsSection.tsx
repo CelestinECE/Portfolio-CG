@@ -24,6 +24,15 @@ const projets: Projet[] = [
     technologies: ['C', 'JSON', 'Git'],
   },
   {
+    titre: 'Agence de Location de Voitures',
+    description:
+      "Système de gestion complet d'une agence de location développé en Java 21+, entièrement en ligne de commande. Architecture orientée objet avec héritage et polymorphisme (Vehicule → Voiture, Moto, Utilitaire), cycle de vie complet d'une location (création, retour, annulation, pénalités de retard) et statistiques dynamiques (taux d'occupation, véhicule le plus loué, client fidèle). Menu console hiérarchique sur 3 niveaux.",
+    categorie: 'Scolaire',
+    image: '/images/Java_Projet.png',
+    lienGithub: 'https://gitfront.io/r/Celestingn/U66iViRUDCrD/Projet-location/',
+    technologies: ['Java 21', 'POO', 'UML'],
+  },
+  {
     titre: 'Outil d\'Analyse Financière',
     description:
       "Outil d'analyse financière automatisé capable de collecter des données de marché en temps réel et de les transformer en indicateurs de performance et de risque : ratio de Sharpe, Bêta, Volatilité. S'appuie sur une structure de données fiable pour produire des rapports exploitables directement.",

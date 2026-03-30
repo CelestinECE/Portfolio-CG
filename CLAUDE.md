@@ -275,6 +275,7 @@ xl:   1280px  — desktop (référence principale)
   "three": "latest",
   "@react-three/fiber": "latest",
   "@react-three/drei": "latest",
+  "@splinetool/react-spline": "latest",
   "framer-motion": "latest",
   "resend": "latest"
 }
@@ -285,7 +286,8 @@ xl:   1280px  — desktop (référence principale)
 | Dépendance | Rôle |
 |---|---|
 | `next` | Framework principal — App Router |
-| `three` + `@react-three/fiber` + `@react-three/drei` | Scènes 3D dans le Hero et sections |
+| `three` + `@react-three/fiber` + `@react-three/drei` | Scènes 3D (installés, pas encore utilisés) |
+| `@splinetool/react-spline` | Scènes 3D Spline (installé, intégration à retenter) |
 | `framer-motion` | Animations au scroll, reveals, transitions |
 | `resend` | Envoi d'emails depuis le formulaire de contact (server-side) |
 
@@ -328,25 +330,25 @@ Le portfolio est une **page unique à scroll vertical**. Ordre des sections :
 
 ### Contenu Hero
 - Nom complet : **Celestin Guilhen**
-- Sous-titre : *Ingénieur IA & Systèmes d'Information — ECE Lyon*
+- Sous-titre : *Étudiant Ingénieur — Spécialisation Finance & Marchés — ECE Lyon*
 - Message d'accueil : *Bienvenue sur mon portfolio.*
-- Scène Three.js : particules géométriques low-poly en dérive lente
+- Logo CG animé (scale + fade-in) au-dessus du titre
 - Mesh gradient Crimson Noir derrière la scène
 - Bouton CTA scrollant vers la section Projets
 
 ### Contenu Compétences
 ```
-Langages        : Python, C, Java, TypeScript, JavaScript
-Outils & DevOps : Git, GitHub, Docker, Linux
-IA & Data       : TensorFlow, Scikit-learn, Pandas
-Finance         : Bloomberg Terminal, Excel, Analyse technique
+Langages        : Python, C, Java, JavaScript, HTML, CSS, JSON, SQL
+Outils & DevOps : Git, GitHub, VS Code
+Finance         : Bloomberg Terminal, Excel
 ```
 
 ### Contenu à compléter plus tard
-- Texte bio (section À propos)
-- Photo de profil → remplacer le placeholder initiales "CG"
-- Détails des projets et expériences (section Projets)
+- ~~Texte bio (section À propos)~~ ✅ Complété
+- ~~Photo de profil~~ ✅ Complété (`/public/images/Photocv.jpeg`)
+- ~~Détails des projets et expériences (section Projets)~~ ✅ 2 projets ajoutés
 - Adresse email de réception dans `CONTACT_EMAIL`
+- Intégration scène 3D (Spline ou Three.js) — à retenter plus tard
 
 ---
 
