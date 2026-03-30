@@ -22,17 +22,20 @@ et le respecter intégralement à chaque session de travail.
 ```
 /
 ├── app/                    # App Router Next.js (pages, layouts, API routes)
-│   ├── layout.tsx
+│   ├── layout.tsx          # Navbar globale incluse ici
 │   ├── page.tsx
 │   └── api/                # Routes API server-side uniquement
 ├── components/             # Composants React réutilisables
-│   ├── ui/                 # Composants génériques (boutons, cards, etc.)
+│   ├── ui/                 # Composants génériques (Navbar, boutons, cards, etc.)
 │   ├── sections/           # Sections de la page (Hero, About, Projects...)
 │   └── three/              # Composants Three.js / R3F isolés
 ├── lib/                    # Fonctions utilitaires, helpers, constantes
 ├── public/                 # Assets statiques (images, fonts, modèles 3D)
-│   └── fonts/              # Polices typeface.json pour Text3D
-├── styles/                 # Styles globaux si nécessaire
+│   ├── fonts/              # Polices typeface.json pour Text3D
+│   ├── images/             # Photos, logos 2D
+│   └── models/             # Fichiers SVG et 3D (logo-cg.svg, icônes compétences...)
+├── styles/                 # Styles globaux
+├── three-fiber.d.ts        # Déclaration types JSX pour R3F (compat @types/react v19)
 ├── .env.local              # Variables d'environnement locales (jamais committé)
 ├── .env.example            # Modèle des variables d'env (committé, sans valeurs)
 ├── .gitignore
@@ -48,99 +51,82 @@ et le respecter intégralement à chaque session de travail.
 --color-bg:        #0a0a0f   /* Fond principal — noir quasi-pur, légère teinte violacée */
 --color-surface:   #12121a   /* Cartes, surfaces secondaires */
 --color-surface-2: #1e1020   /* Surfaces profondes, derrière les mesh gradients */
---color-accent:    #ff2d55   /* Rouge électrique — couleur principale d'accentuation */
+--color-accent:    #e8102e   /* Rouge franc — couleur principale d'accentuation */
 --color-accent-2:  #c0002a   /* Rouge profond — secondaire, hover, bordures actives */
 --color-text:      #f0e8ec   /* Texte principal — blanc légèrement rosé */
 --color-muted:     #7a5a62   /* Texte secondaire, labels */
 ```
 
-> Inspiration : Bloomberg Terminal. Le rouge est réservé aux éléments à forte valeur
-> visuelle (CTA, titres de section, bordures actives, accents 3D). Le fond tire
-> vers le violet-noir pour éviter le noir pur froid et s'harmoniser avec les mesh gradients.
+> Le rouge (`#e8102e`) est un rouge franc, sans teinte rose. Il est réservé aux éléments
+> à forte valeur visuelle (CTA, titres de section, bordures actives, accents 3D).
 
 ### Typographie
-- **Titres** : Police distinctive (ex: `Space Mono`, `JetBrains Mono`, ou similaire)
-- **Corps** : Police lisible et moderne
-- Importer depuis Google Fonts via `next/font`
+- **Titres** : `Space Mono` (monospace)
+- **Corps** : `Inter`
+- Importés depuis Google Fonts via `next/font`
 
 ### Mesh Gradients — philosophie de profondeur
 L'esthétique repose sur la **profondeur atmosphérique**, pas uniquement sur le néon.
-Les mesh gradients servent de liant organique entre la 2D et la 3D :
 
-- **Derrière chaque scène Three.js** : un mesh gradient flou en arrière-plan (jamais de fond noir uni)
 - Implémentation : plusieurs `radial-gradient()` superposés + `filter: blur(60-80px)` + faible opacité
-- Les couleurs du gradient varient subtilement selon la section — pas le même gradient partout
-- Chaque section a sa propre **température de couleur** pour créer un rythme visuel au scroll
+- Chaque section a sa propre intensité — le Hero est le plus vif, les suivantes s'assombrissent
+- Classes CSS définies dans `styles/globals.css` : `.mesh-gradient-hero`, `.mesh-gradient-projects`
 
+### Glassmorphism — menu de navigation
+Le panel du menu hamburger utilise un effet verre liquide :
 ```css
-/* Exemple de mesh gradient — Hero */
-.mesh-gradient-hero {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 15% 40%, #ff2d5530 0%, transparent 65%),
-    radial-gradient(ellipse 50% 60% at 85% 60%, #c0002a22 0%, transparent 65%),
-    radial-gradient(ellipse 40% 40% at 50% 20%, #3d001522 0%, transparent 60%);
-  filter: blur(70px);
-  z-index: 0;
-}
-
-/* Exemple de mesh gradient — section Projects (plus froid, contraste) */
-.mesh-gradient-projects {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 50% 50% at 80% 30%, #ff2d5518 0%, transparent 60%),
-    radial-gradient(ellipse 40% 60% at 20% 70%, #1e102033 0%, transparent 60%);
-  filter: blur(80px);
-  z-index: 0;
-}
+background: rgba(18, 18, 26, 0.45);
+backdrop-filter: blur(24px) saturate(180%);
+border-left: 1px solid rgba(255,255,255,0.08);
+box-shadow: -8px 0 40px rgba(0,0,0,0.4), inset 1px 0 0 rgba(255,255,255,0.05);
 ```
 
-> Règle : chaque section a sa propre intensité de gradient — le Hero est le plus vif,
-> les sections suivantes s'assombrissent progressivement pour créer un rythme au scroll.
-
-- La scène Three.js est en `z-index: 1`, le contenu texte en `z-index: 2`
-- Résultat visuel : la 3D **émerge de l'atmosphère** au lieu de flotter sur du noir
-
 ### Règles visuelles générales
-- Fond sombre, jamais de noir pur `#000000` — utiliser `#050a14`
-- Le néon (`--color-accent`) est réservé aux éléments interactifs et points focaux — pas un remplissage
+- Fond sombre, jamais de noir pur `#000000`
+- Le rouge accent est réservé aux éléments interactifs et points focaux
 - Animations sobres : durée entre 300ms et 800ms, easing naturel
 - Pas d'animations en boucle infinie sauf dans les scènes Three.js
+- Effets hover sur les badges compétences : `scale(1.12)` + `rotateY(12deg)` instantané (`tween 80ms`)
+- Effets hover sur la photo de profil : `scale(1.05)` + `y(-8px)` + halo rouge (spring fluide)
 
 ---
 
 ## 🧊 Règles Three.js / 3D
 
-### Nombre de scènes
-- **Pas de limite fixe** — le nombre de scènes dépend de leur légèreté et de leur pertinence visuelle
-- Chaque scène doit justifier sa présence : pas de 3D décoratif sans valeur ajoutée
-- Privilégier des scènes légères et ciblées plutôt que peu de scènes lourdes
+### Logo CG 3D — Hero
+- Fichier SVG source : `/public/models/logo-cg.svg`
+- Composant : `/components/three/LogoCG3D.tsx`
+- Chargé via `SVGLoader` + `ExtrudeGeometry` + matériaux `meshStandardMaterial`
+- Effet tilt : suit la position de la souris via `useThree().pointer` + lerp dans `useFrame`
+- `// @ts-nocheck` sur ce fichier (incompatibilité @types/react v19 / R3F v8 JSX global)
+- Sur mobile (`< 1024px`) : remplacé par le logo 2D PNG (`/public/images/Logo_CG.png`)
+- Chargement : `dynamic(() => import(...), { ssr: false })` + `useState<boolean | null>(null)` pour éviter le flash 2D→3D
 
 ### Performance & chargement
 - Les composants R3F doivent être dans `/components/three/`
 - **Lazy loading obligatoire** sur tous les composants Three.js :
   ```ts
-  const HeroScene = dynamic(() => import('@/components/three/HeroScene'), { ssr: false })
+  const MonComposant = dynamic(() => import('@/components/three/MonComposant'), { ssr: false })
   ```
 - Utiliser `Suspense` avec un fallback pour chaque `Canvas`
-- Désactiver le rendu hors viewport : `frameloop="demand"` ou via `IntersectionObserver`
-- Le texte 3D (ex: `Text3D`) utilise les polices stockées dans `/public/fonts/`
+- `isDesktop` initialisé à `null` (pas `false`) pour éviter le flash de contenu mobile
 
 ### Contraintes de qualité
-- Pas de physics engine (inutile pour un portfolio)
+- Pas de physics engine
 - Pas de maillages > 50k polygones
-- Pas d'animations en boucle qui tournent même hors viewport
+- Pas d'animations en boucle qui tournent hors viewport
 
-### Mobile
-- Sur mobile, les scènes Three.js sont **désactivées ou remplacées par un fallback statique**
-- Utiliser `useMediaQuery` pour conditionner le rendu 3D :
-  ```ts
-  // Ne pas charger la scène sur écran < 1024px
-  const isDesktop = useMediaQuery('(min-width: 1024px)')
-  return isDesktop ? <HeroScene /> : <HeroFallback />
-  ```
+### Note TypeScript R3F
+Fichier `three-fiber.d.ts` à la racine pour déclarer les types JSX Three.js :
+```ts
+import { ThreeElements } from '@react-three/fiber'
+declare global {
+  namespace JSX {
+    interface IntrinsicElements extends ThreeElements {}
+  }
+}
+```
+Les composants R3F portent `// @ts-nocheck` si les erreurs persistent (compat @types/react v19).
 
 ---
 
@@ -150,15 +136,6 @@ Les mesh gradients servent de liant organique entre la 2D et la 3D :
 - **Jamais** hardcoder une clé API, token ou secret dans le code source
 - **Jamais** committer `.env.local` (vérifié par `.gitignore`)
 - Toujours créer/mettre à jour `.env.example` quand une nouvelle variable est ajoutée
-
-### Convention de nommage des variables
-```bash
-# Côté serveur uniquement (API routes, Server Components)
-NOM_DU_SERVICE_API_KEY=
-
-# Côté client (exposé au navigateur — uniquement si non sensible)
-NEXT_PUBLIC_NOM_VARIABLE=
-```
 
 ### Fichiers à inclure dans `.gitignore`
 ```
@@ -173,7 +150,6 @@ out/
 ### Sur Vercel
 - Toutes les variables d'env doivent être configurées dans :
   `Vercel Dashboard → Project → Settings → Environment Variables`
-- Ne jamais les passer en clair dans les scripts de déploiement
 
 ---
 
@@ -183,23 +159,15 @@ out/
 - Mode strict activé dans `tsconfig.json`
 - Pas de `any` sauf cas exceptionnel justifié en commentaire
 - Typer tous les props de composants avec une `interface` ou `type`
-- Préférer les `type` pour les unions, `interface` pour les objets
 
 ### Composants React
 - Nommage : **PascalCase** (ex: `HeroSection.tsx`, `ProjectCard.tsx`)
 - Un composant par fichier
-- Props typées explicitement, jamais de props implicites
 - Utiliser les Server Components par défaut, `"use client"` seulement si nécessaire
-
-### Fonctions & variables
-- Nommage : **camelCase**
-- Fonctions utilitaires dans `/lib/`
-- Constantes globales (couleurs, textes, données) dans `/lib/constants.ts`
 
 ### Commentaires
 - **Tous les commentaires en français**
 - Commenter les sections complexes (shaders, logique 3D, calculs)
-- Pas de commentaires évidents (`// incrémente i` sur un `i++`)
 
 ---
 
@@ -216,12 +184,6 @@ chore:    maintenance, dépendances, config
 docs:     documentation uniquement
 ```
 
-Exemple : `feat: ajouter scène Three.js dans le hero`
-
-### Branches
-- `main` → production (déploiement automatique sur Vercel)
-- Développer sur une branche feature si changement important, merger via PR
-
 ### Avant chaque commit
 - Vérifier qu'aucune clé API n'est présente dans le code
 - Vérifier que `.env.local` n'est pas staggé
@@ -231,64 +193,30 @@ Exemple : `feat: ajouter scène Three.js dans le hero`
 
 ## 📱 Responsive & compatibilité
 
-### Priorité d'affichage
-- **Desktop en priorité** — le design est conçu et optimisé pour grand écran (1280px+)
-- Le site doit rester **fonctionnel et lisible sur mobile**, mais sans compromettre l'expérience desktop
-- Approche : **desktop-first** (styles de base pour desktop, media queries pour réduire sur mobile)
-
-### Breakpoints Tailwind utilisés
-```
-sm:   640px   — petits écrans / paysage mobile
-md:   768px   — tablette
-lg:   1024px  — laptop
-xl:   1280px  — desktop (référence principale)
-2xl:  1536px  — grand écran
-```
-
-### Règles spécifiques
-- Les scènes Three.js sur mobile : simplifiées ou remplacées par une image statique si trop lourdes
-- La navigation devient un menu hamburger en dessous de `md:`
-- Les grilles de projets passent de 3 colonnes (desktop) à 1 colonne (mobile)
-- Les effets de glow/néon peuvent être réduits sur mobile pour la performance
-- Ne jamais casser le layout desktop pour accommoder le mobile
+- **Desktop en priorité** — design optimisé pour 1280px+
+- Approche **desktop-first**
+- Scènes Three.js désactivées sous `1024px` (remplacées par fallback statique)
+- Navigation hamburger disponible sur tous les écrans (fixe en haut à droite)
 
 ---
 
 ## ⚡ Performance & bonnes pratiques
 
-- Utiliser `next/image` pour toutes les images (optimisation automatique)
-- Lazy loading sur les composants lourds (`dynamic(() => import(...), { ssr: false })`)
-  notamment pour les composants Three.js
-- Pas de `console.log` en production (les supprimer avant commit)
+- Utiliser `next/image` pour toutes les images
+- Lazy loading sur les composants lourds
+- Pas de `console.log` en production
 - Lighthouse score cible : > 90 en Performance, Accessibilité, SEO
 
 ---
 
-## 📦 Dépendances principales prévues
-
-```json
-{
-  "next": "14.x",
-  "react": "18.x",
-  "typescript": "5.x",
-  "tailwindcss": "3.x",
-  "three": "latest",
-  "@react-three/fiber": "latest",
-  "@react-three/drei": "latest",
-  "@splinetool/react-spline": "latest",
-  "framer-motion": "latest",
-  "resend": "latest"
-}
-```
-
-> Ajouter toute nouvelle dépendance ici avec une justification courte.
+## 📦 Dépendances installées
 
 | Dépendance | Rôle |
 |---|---|
 | `next` | Framework principal — App Router |
-| `three` + `@react-three/fiber` + `@react-three/drei` | Scènes 3D (installés, pas encore utilisés) |
-| `@splinetool/react-spline` | Scènes 3D Spline (installé, intégration à retenter) |
-| `framer-motion` | Animations au scroll, reveals, transitions |
+| `three` + `@react-three/fiber` + `@react-three/drei` | Scènes 3D |
+| `@splinetool/react-spline` | Viewer Spline (disponible, non utilisé actuellement) |
+| `framer-motion` | Animations au scroll, reveals, transitions, hover |
 | `resend` | Envoi d'emails depuis le formulaire de contact (server-side) |
 
 ---
@@ -296,70 +224,57 @@ xl:   1280px  — desktop (référence principale)
 ## 🚧 APIs externes
 
 ### Resend — formulaire de contact
-- **Usage** : envoi d'email lors de la soumission du formulaire de contact
-- **Documentation** : https://resend.com/docs
-- **Route API** : `/app/api/contact/route.ts` (server-side uniquement)
+- **Route API** : `/app/api/contact/route.ts`
+- **Expéditeur** : `onboarding@resend.dev` (sans domaine custom vérifié)
+- **Destinataire** : adresse du compte Resend (limitation plan gratuit sans domaine)
 - **Variables d'env** :
   ```bash
-  RESEND_API_KEY=        # Clé API Resend (jamais côté client)
-  CONTACT_EMAIL=         # Adresse email qui reçoit les messages du formulaire
+  RESEND_API_KEY=        # Clé API Resend
+  CONTACT_EMAIL=         # Adresse de réception (doit être l'adresse du compte Resend)
   ```
-- **Gratuit** jusqu'à 3 000 emails/mois
-- Le formulaire affiche un feedback visuel succès/erreur après soumission
-- Ne jamais exposer `RESEND_API_KEY` côté client — appel uniquement depuis la route API
-
-### Ajout d'une nouvelle API (procédure)
-1. Ajouter la clé dans `.env.local` et `.env.example` (sans valeur)
-2. Documenter l'usage dans cette section
-3. Créer la route dans `/app/api/` si appel server-side
-4. Préfixer `NEXT_PUBLIC_` uniquement si la variable est non sensible et utilisée côté client
 
 ---
 
 ## 📄 Structure de la page (single-page scroll)
 
-Le portfolio est une **page unique à scroll vertical**. Ordre des sections :
-
 | # | Section | Composant | Notes |
 |---|---|---|---|
-| 1 | Hero | `HeroSection.tsx` | Nom, bienvenue, scène Three.js, CTA |
-| 2 | Expériences & Projets | `ProjectsSection.tsx` | Cards avec liens GitHub, certifications |
-| 3 | Compétences | `SkillsSection.tsx` | Badges groupés par catégorie |
-| 4 | À propos | `AboutSection.tsx` | Photo + bio, layout 2 colonnes |
-| 5 | Contact | `ContactSection.tsx` | Formulaire → API Resend |
+| — | Navigation | `Navbar.tsx` | Fixe, hamburger → panel glass latéral |
+| 1 | Hero | `HeroSection.tsx` | Logo 3D R3F, nom, CTA |
+| 2 | Intro | `IntroSection.tsx` | Court texte d'accroche "Ce qui me définit" |
+| 3 | Expériences & Projets | `ProjectsSection.tsx` | 3 projets avec liens GitHub |
+| 4 | Compétences | `SkillsSection.tsx` | Badges avec icônes SVG + hover 3D CSS |
+| 5 | À propos | `AboutSection.tsx` | Photo + bio, layout 2 colonnes |
+| 6 | Contact | `ContactSection.tsx` | Formulaire → API Resend |
 
-### Contenu Hero
-- Nom complet : **Celestin Guilhen**
-- Sous-titre : *Étudiant Ingénieur — Spécialisation Finance & Marchés — ECE Lyon*
-- Message d'accueil : *Bienvenue sur mon portfolio.*
-- Logo CG animé (scale + fade-in) au-dessus du titre
-- Mesh gradient Crimson Noir derrière la scène
-- Bouton CTA scrollant vers la section Projets
+### Projets actuels
+1. **Réseaux Trophiques** — C, JSON, Git — [gitfront.io](https://gitfront.io/r/Celestingn/75eUesPgPATd/projet-reseaux-trophiques-equipe-3b/)
+2. **Agence de Location de Voitures** — Java 21, POO, UML — [gitfront.io](https://gitfront.io/r/Celestingn/U66iViRUDCrD/Projet-location/)
+3. **Outil d'Analyse Financière** — Python, VBA, Excel — En cours (pas de lien)
 
-### Contenu Compétences
+### Compétences
 ```
-Langages        : Python, C, Java, JavaScript, HTML, CSS, JSON, SQL
+Langages        : Python, C, Java, HTML, CSS, JSON, SQL
 Outils & DevOps : Git, GitHub, VS Code
-Finance         : Bloomberg Terminal, Excel
+Finance         : Bloomberg, Excel
 ```
 
-### Contenu à compléter plus tard
-- ~~Texte bio (section À propos)~~ ✅ Complété
-- ~~Photo de profil~~ ✅ Complété (`/public/images/Photocv.jpeg`)
-- ~~Détails des projets et expériences (section Projets)~~ ✅ 2 projets ajoutés
-- Adresse email de réception dans `CONTACT_EMAIL`
-- Intégration scène 3D (Spline ou Three.js) — à retenter plus tard
+### Assets disponibles
+- `/public/images/Logo_CG.png` — Logo 2D (fallback mobile)
+- `/public/images/Photocv.jpeg` — Photo de profil
+- `/public/images/TDG.png` — Image projet Réseaux Trophiques
+- `/public/images/Java_Projet.png` — Image projet Java
+- `/public/models/logo-cg.svg` — Logo SVG vectorisé pour extrusion 3D
+- `/public/models/*.svg` — Icônes SVG des compétences (python, c, java, html, css, json, sql, git, github, vs-code, bloomberg, excel)
 
 ---
 
-## 🔑 Variables d'environnement — référence complète
+## 🔑 Variables d'environnement
 
 ```bash
 # .env.example — copier en .env.local et remplir les valeurs
-
-# Resend — formulaire de contact
 RESEND_API_KEY=        # Générer sur https://resend.com/api-keys
-CONTACT_EMAIL=         # Ex: celestin.guilhen@email.com
+CONTACT_EMAIL=         # Adresse du compte Resend
 ```
 
 ---
