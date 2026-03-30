@@ -1,10 +1,50 @@
 'use client'
 
+import { useState, useEffect, Suspense } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import TypewriterTitle from '@/components/ui/TypewriterTitle'
 
+/* Chargement lazy du logo 3D — jamais côté serveur */
+const LogoCG3D = dynamic(() => import('@/components/three/LogoCG3D'), {
+  ssr: false,
+  loading: () => (
+    <Image
+      src="/images/Logo_CG.png"
+      alt="Logo CG"
+      width={540}
+      height={540}
+      className="mx-auto"
+      priority
+    />
+  ),
+})
+
+/* Fallback logo 2D pour mobile */
+function LogoCG2D() {
+  return (
+    <Image
+      src="/images/Logo_CG.png"
+      alt="Logo CG"
+      width={540}
+      height={540}
+      className="mx-auto"
+      priority
+    />
+  )
+}
+
 export default function HeroSection() {
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsDesktop(window.innerWidth >= 1024)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
   const scrollToProjects = () => {
     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -20,14 +60,10 @@ export default function HeroSection() {
           transition={{ duration: 0.6 }}
           className="-mb-4"
         >
-          <Image
-            src="/images/Logo_CG.png"
-            alt="Logo CG"
-            width={540}
-            height={540}
-            className="mx-auto"
-            priority
-          />
+          {/* Logo 3D sur desktop, 2D sur mobile */}
+          <Suspense fallback={<LogoCG2D />}>
+            {isDesktop ? <LogoCG3D /> : <LogoCG2D />}
+          </Suspense>
         </motion.div>
 
         <TypewriterTitle
