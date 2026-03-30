@@ -21,14 +21,22 @@ export default function AboutSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="relative w-[336px] h-[336px] rounded-full overflow-hidden border-2 border-accent/30">
+            <motion.div
+              className="relative w-[336px] h-[336px] rounded-full overflow-hidden border-2 border-accent/30 cursor-pointer"
+              whileHover={{
+                scale: 1.05,
+                y: -8,
+                boxShadow: '0 20px 60px rgba(255, 45, 85, 0.25), 0 0 0 4px rgba(255, 45, 85, 0.15)',
+              }}
+              transition={{ type: 'spring', stiffness: 200, damping: 22 }}
+            >
               <Image
                 src="/images/Photocv.jpeg"
                 alt="Celestin Guilhen"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-500 hover:scale-105"
               />
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Bio */}

@@ -38,7 +38,7 @@ const categories: SkillCategory[] = [
   {
     name: 'Finance',
     skills: [
-      { name: 'Bloomberg Terminal', icon: '/models/bloomberg.svg' },
+      { name: 'Bloomberg ', icon: '/models/bloomberg.svg' },
       { name: 'Excel', icon: '/models/excel.svg' },
     ],
   },
@@ -83,7 +83,7 @@ function SkillBadge({ skill }: { skill: Skill }) {
 
 export default function SkillsSection() {
   return (
-    <section id="skills" className="relative min-h-screen py-24 px-4">
+    <section id="skills" className="relative py-24 px-4">
       <div className="relative z-10 max-w-6xl mx-auto">
         <TypewriterTitle
           text="Compétences"
