@@ -17,6 +17,9 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   title: 'Celestin Guilhen — Portfolio',
   description: 'Ingénieur IA & Systèmes d\'Information — ECE Lyon',
+  icons: {
+    icon: '/images/Logo_CG.png',
+  },
 }
 
 export default function RootLayout({
