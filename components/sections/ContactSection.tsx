@@ -76,7 +76,7 @@ export default function ContactSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Une question ou un projet en tête ? N&apos;hésite pas à me contacter !
+          Une question ou un projet en tête ? N&apos;hésitez pas à me contacter !
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
