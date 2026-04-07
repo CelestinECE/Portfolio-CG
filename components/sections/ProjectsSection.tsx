@@ -33,13 +33,13 @@ const projets: Projet[] = [
     technologies: ['Java 21', 'POO', 'UML'],
   },
   {
-    titre: 'Outil d\'Analyse Financière',
+    titre: 'Pairs Trading & Cointégration',
     description:
-      "Outil d'analyse financière automatisé capable de collecter des données de marché en temps réel et de les transformer en indicateurs de performance et de risque : ratio de Sharpe, Bêta, Volatilité. S'appuie sur une structure de données fiable pour produire des rapports exploitables directement.",
+      "Dashboard interactif d'analyse de pairs trading basé sur la cointégration statistique. L'outil teste si deux actions sont statistiquement liées (test d'Engle-Granger), génère des signaux de trading via le z-score du spread, et backteste la stratégie sur historique avec calcul des métriques de performance (Sharpe ratio, max drawdown, win rate). Approche market-neutral inspirée des stratégies quantitatives utilisées en hedge funds.",
     categorie: 'Personnel — En cours',
     image: null,
     lienGithub: null,
-    technologies: ['Python', 'VBA', 'Excel'],
+    technologies: ['Python', 'Streamlit', 'statsmodels'],
   },
 ]
 
