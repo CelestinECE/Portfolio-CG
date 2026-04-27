@@ -37,7 +37,7 @@ const projets: Projet[] = [
     description:
       "Dashboard interactif d'analyse de pairs trading basé sur la cointégration statistique. L'outil teste si deux actions sont statistiquement liées (test d'Engle-Granger), génère des signaux de trading via le z-score du spread, et backteste la stratégie sur historique avec calcul des métriques de performance (Sharpe ratio, max drawdown, win rate). Approche market-neutral inspirée des stratégies quantitatives utilisées en hedge funds.",
     categorie: 'Personnel — En cours',
-    image: null,
+    image: '/images/Pair.png',
     lienGithub: null,
     technologies: ['Python', 'Streamlit', 'statsmodels'],
   },
