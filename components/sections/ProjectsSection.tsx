@@ -36,9 +36,9 @@ const projets: Projet[] = [
     titre: 'Pairs Trading & Cointégration',
     description:
       "Dashboard interactif d'analyse de pairs trading basé sur la cointégration statistique. L'outil teste si deux actions sont statistiquement liées (test d'Engle-Granger), génère des signaux de trading via le z-score du spread, et backteste la stratégie sur historique avec calcul des métriques de performance (Sharpe ratio, max drawdown, win rate). Approche market-neutral inspirée des stratégies quantitatives utilisées en hedge funds.",
-    categorie: 'Personnel — En cours',
+    categorie: 'Personnel',
     image: '/images/Pair.png',
-    lienGithub: null,
+    lienGithub: 'https://gitfront.io/r/Celestingn/3sRuKNCkvUQ7/pairs-cointegration/',
     technologies: ['Python', 'Streamlit', 'statsmodels'],
   },
 ]
